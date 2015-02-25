@@ -15,20 +15,30 @@ class Scheduler
 
   def initialize input
     self.schedule = input[:schedule]
-    self.workers  = input[:workers]
+    self.workers  = input[:workers].map do |name, preferences|
+      Worker.new(name, preferences)
+    end
   end
 
   def run
-    hash = {worker.name => {}}
-    schedule.each do |day, preference|
-      hash[worker.name][day] = worker.preference_by_day day, schedule[day]
+    hash = {}
+    workers.each do |worker|
+      hash[worker.name] = schedule_worker(worker)
     end
     hash
   end
 
-  def worker
-    name = workers.keys.first
-    @worker ||= Worker.new(name, workers[name])
-  end
+  def schedule_worker worker
+    personal_schedule = {}
+    schedule.each do |day, preference|
+      day_schedule = worker.preference_by_day day, preference
 
+      schedule[day].each_with_index do |val, n|
+        schedule[day][n] -= day_schedule[n]
+      end
+
+      personal_schedule[day] = day_schedule
+    end
+    personal_schedule
+  end
 end
