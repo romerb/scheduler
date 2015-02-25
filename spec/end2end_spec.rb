@@ -15,6 +15,11 @@ class TestParser < Minitest::Test
     day_array = Parser.convert_range_to_array(day_range)
     expected = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0]
     assert_equal expected, day_array
+
+    day_range = "10 AM to 7 PM"
+    day_array = Parser.convert_range_to_array(day_range)
+    expected = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0]
+    assert_equal expected, day_array
   end
 
   def test_end_2_end
