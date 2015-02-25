@@ -5,8 +5,8 @@ class Parser
 
   def self.convert_days_range_to_array(days_range)
     {}.tap do |days_ranges|
-      days_range.each_line do |day_range|
-        days_ranges.merge!(convert_day_range_to_array(day_range.strip))
+      days_range.each do |day, range|
+        days_ranges.merge!(convert_day_range_to_array(day => range))
       end
     end
   end
@@ -16,7 +16,8 @@ class Parser
              "Wed" => :wednesday, "Thu" => :thursday, "Fri" => :friday,
              "Sat" => :saturday }
 
-    day, range = day_range.split(':')
+    day, range = Array(day_range).flatten
+    
     { days[day] => convert_range_to_array(range) }
   end
 
