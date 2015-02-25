@@ -56,5 +56,14 @@ describe Scheduler do
       expect(schedule.run).to eq(paul: {monday: workday, tuesday: workday})
     end
   end
-
+  describe "multiple workers" do
+    context "without preference" do
+      let(:multi_worker_input) { input[:workers][:kuba] = {monday: workday}; input }
+      it "it schedules the workers equaly" do
+        s = Scheduler.new(multi_worker_input)
+        expect(s.run()[:paul][:monday].inject(&:+)).to eq(4)
+        expect(s.run()[:kuba][:monday].inject(&:+)).to eq(4)
+      end
+    end
+  end
 end
