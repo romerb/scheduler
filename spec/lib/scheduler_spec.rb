@@ -22,10 +22,39 @@ describe Scheduler do
     }
   end
 
+  let(:multi_days) do
+    input[:schedule].merge!(tuesday: workday)
+    input[:workers][:paul].merge!(tuesday: preferences)
+    input
+  end
+
   describe "easiest" do
+    let(:schedule) { Scheduler.new(input) }
     it 'returns correct output' do
-      s = Scheduler.new(input)
-      expect(s.run).to eq(paul: {monday: workday})
+      expect(schedule.run).to eq(paul: {monday: workday})
     end
   end
+
+  describe "multiple days" do
+
+    let(:schedule) { Scheduler.new(multi_days) }
+
+    it 'returns correct output' do
+      expect(schedule.run).to eq(paul: {monday: workday, tuesday: workday})
+    end
+  end
+
+  describe "multiple days and workers" do
+    let(:multi_days) do
+      input[:schedule].merge!(tuesday: workday)
+      input[:workers][:paul].merge!(tuesday: preferences)
+      input
+    end
+    let(:schedule) { Scheduler.new(multi_days) }
+
+    it 'returns correct ouput' do
+      expect(schedule.run).to eq(paul: {monday: workday, tuesday: workday})
+    end
+  end
+
 end
