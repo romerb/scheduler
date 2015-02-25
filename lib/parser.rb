@@ -8,7 +8,7 @@ class Parser
     from_hour, from_meridian = from.split(' ')
     to_hour, to_meridian = to.split(' ')
 
-    from = from_hour.to_i
+    from = from_meridian == "AM" ? from_hour.to_i : from_hour.to_i + 12
     to = to_hour.to_i + 12
 
     day = []
