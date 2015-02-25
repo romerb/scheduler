@@ -6,9 +6,8 @@ class Worker
   end
 
   def preference_by_day day, schedule
-    {day.to_sym => preferences[day].zip(schedule).map{ |arr| arr[0]&arr[1] }}
+    preferences[day].zip(schedule).map{ |arr| arr[0]&arr[1] }
   end
-
 end
 
 class Scheduler
@@ -20,9 +19,9 @@ class Scheduler
   end
 
   def run
-    hash = {}
+    hash = {worker.name => {}}
     schedule.each do |day, preference|
-      hash[worker.name] =  worker.preference_by_day day, schedule[day]
+      hash[worker.name][day] = worker.preference_by_day day, schedule[day]
     end
     hash
   end
