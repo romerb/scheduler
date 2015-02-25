@@ -1,0 +1,6 @@
+--- 
+Schedule: 
+  Wed: 9 AM to 6 PM
+Workers: 
+  James: 
+    Wed: before 3 PM (prefers before 12 PM)
