@@ -8,8 +8,8 @@ class Parser
     from_hour, from_meridian = from.split(' ')
     to_hour, to_meridian = to.split(' ')
 
-    from = from_meridian == "AM" ? from_hour.to_i : from_hour.to_i + 12
-    to = to_hour.to_i + 12
+    from = twelve_to_twentyfour(from_hour, from_meridian)
+    to = twelve_to_twentyfour(to_hour, to_meridian)
 
     day = []
     0.upto(from - 1) { |n| day << 0 }
@@ -17,5 +17,11 @@ class Parser
     to.upto(23) { |n| day << 0 }
 
     day
+  end
+
+  private
+
+  def self.twelve_to_twentyfour(hour, meridian)
+    meridian == "AM" ? hour.to_i : hour.to_i + 12
   end
 end
