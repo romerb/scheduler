@@ -4,8 +4,12 @@ class Parser
   end
 
   def self.convert_day_range_to_array day_range
+  	days = { "Sun" => :sunday, "Mon" => :monday, "Tue" => :tuesday,
+  			 "Wed" => :wednesday, "Thu" => :thursday, "Fri" => :friday,
+  			 "Sat" => :saturday }
+
     day, range = day_range.split(':')
-    {wednesday: convert_range_to_array(range)}
+    { days[day] => convert_range_to_array(range) } 
   end
 
   def self.convert_range_to_array(day_range)
