@@ -13,8 +13,8 @@ class Parser
 
     day = []
     0.upto(from - 1) { |n| day << 0 }
-    from.upto(to) { |n| day << 1 }
-    (to + 1).upto(23) { |n| day << 0 }
+    from.upto(to - 1) { |n| day << 1 }
+    to.upto(23) { |n| day << 0 }
 
     day
   end
