@@ -3,13 +3,21 @@ class Parser
     {}
   end
 
+  def self.convert_days_range_to_array(days_range)
+    {}.tap do |days_ranges|
+      days_range.each_line do |day_range|
+        days_ranges.merge!(convert_day_range_to_array(day_range.strip))
+      end
+    end
+  end
+
   def self.convert_day_range_to_array day_range
-  	days = { "Sun" => :sunday, "Mon" => :monday, "Tue" => :tuesday,
-  			 "Wed" => :wednesday, "Thu" => :thursday, "Fri" => :friday,
-  			 "Sat" => :saturday }
+    days = { "Sun" => :sunday, "Mon" => :monday, "Tue" => :tuesday,
+             "Wed" => :wednesday, "Thu" => :thursday, "Fri" => :friday,
+             "Sat" => :saturday }
 
     day, range = day_range.split(':')
-    { days[day] => convert_range_to_array(range) } 
+    { days[day] => convert_range_to_array(range) }
   end
 
   def self.convert_range_to_array(day_range)
