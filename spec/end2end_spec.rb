@@ -3,6 +3,7 @@
 # 2 Preferito
 
 require 'minitest/autorun'
+require 'minitest/pride'
 require_relative '../lib/parser'
 
 class TestParser < Minitest::Test
@@ -74,11 +75,10 @@ class TestParser < Minitest::Test
   end
 
   def test_end_2_end
-    skip "lauch later"
     data = Parser.parse(@input)
     expected = {
       schedule: {
-        wednesday: [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0]
+        wednesday: [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0]
       },
       workers: {
         James: {

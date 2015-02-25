@@ -1,6 +1,11 @@
+require 'yaml'
+
 class Parser
   def self.parse input_file
-    {}
+    input = YAML.load input_file
+    {
+      schedule: convert_days_range_to_array(input["Schedule"])
+    }
   end
 
   def self.convert_days_range_to_array(days_range)
@@ -17,7 +22,7 @@ class Parser
              "Sat" => :saturday }
 
     day, range = Array(day_range).flatten
-    
+
     { days[day] => convert_range_to_array(range) }
   end
 
