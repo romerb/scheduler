@@ -10,6 +10,12 @@ class TestParser < Minitest::Test
     @input = File.read(File.expand_path('spec/fixture.txt'))
   end
 
+  def test_day_range_conversion
+    day_range = "Wed: 9 AM to 6 PM"
+    expected = { wednesday: [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0] }
+    day_array = Parser.convert_day_range_to_array(day_range)
+    assert_equal expected, day_array
+  end
 
   def test_range_conversion_to_array
     day_range = "9 AM to 6 PM"
@@ -42,7 +48,7 @@ class TestParser < Minitest::Test
     expected = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     assert_equal expected, day_array
 
-    day_range = "12 AM to 11 PM"
+    day_range = "12 AM to 12 AM"
     day_array = Parser.convert_range_to_array(day_range)
     expected = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     assert_equal expected, day_array
@@ -63,5 +69,4 @@ class TestParser < Minitest::Test
     }
     assert_equal expected, data
   end
-
 end

@@ -11,6 +11,8 @@ class Parser
     from = twelve_to_twentyfour(from_hour.to_i, from_meridian)
     to = twelve_to_twentyfour(to_hour.to_i, to_meridian)
 
+    return ([1] * 24).flatten if all_day_long?(from_hour.to_i, to_hour.to_i, from_meridian, to_meridian)
+
     day = []
     0.upto(from - 1) { |n| day << 0 }
     from.upto(to - 1) { |n| day << 1 }
@@ -25,5 +27,9 @@ class Parser
     return 12 if hour == 12 && meridian == "PM"
     return 0 if hour == 12 && meridian == "AM"
     meridian == "AM" ? hour : hour + 12
+  end
+
+  def self.all_day_long?(from, to, from_meridian, to_meridian)
+    from == 12 && to == 12 && from_meridian == "AM" && to_meridian == "AM"
   end
 end
