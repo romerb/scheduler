@@ -23,6 +23,7 @@ class Parser
 
   def self.twelve_to_twentyfour(hour, meridian)
     return 12 if hour == 12 && meridian == "PM"
+    return 0 if hour == 12 && meridian == "AM"
     meridian == "AM" ? hour : hour + 12
   end
 end
