@@ -17,7 +17,6 @@ class TestParser < Minitest::Test
                  saturday:    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]}
     days_array = Parser.convert_days_range_to_array(days_range)
     assert_equal expected, days_array
-
   end
 
   def test_day_range_conversion
@@ -29,6 +28,13 @@ class TestParser < Minitest::Test
     day_range = { "Fri" => "9 AM to 6 PM" }
     expected = { friday: [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0] }
     day_array = Parser.convert_day_range_to_array(day_range)
+    assert_equal expected, day_array
+  end
+
+  def test_day_worker_preference_conversion
+    day_worker_preference = { "Wed" => "any" }
+    expected = { wednesday: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1] }
+    day_array = Parser.convert_day_worker_preference_to_array(day_worker_preference)
     assert_equal expected, day_array
   end
 
@@ -107,7 +113,6 @@ class TestParser < Minitest::Test
   end
 
   def test_end_2_end
-    skip
     data = Parser.parse(@input)
     expected = {
       schedule: {
