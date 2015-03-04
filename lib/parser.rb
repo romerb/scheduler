@@ -46,8 +46,11 @@ class Parser
   def self.convert_worker_preference_to_array(worker_preference)
     return any if worker_preference == 'any'
     return none if worker_preference == 'not available'
-
     return convert_range_to_array(worker_preference) if range? worker_preference
+
+    if worker_preference =~ /prefers/
+      return [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1]
+    end
 
     before_or_after, hour, meridian = worker_preference.split(' ')
     from_or_to = twelve_to_twentyfour(hour.to_i, meridian)
