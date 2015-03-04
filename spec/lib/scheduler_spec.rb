@@ -63,20 +63,19 @@ describe Scheduler do
     let(:schedule) { Scheduler.new(multi_workers) }
 
     it 'returns correct ouput' do
-      expect(schedule.run).to eq(paul: {monday: workday, tuesday: workday}, marc: {monday: freeday, tuesday: freeday})
+      expect(schedule.run).to eq(paul: {monday: workday, tuesday: workday}, marc: {})
     end
   end
 
   describe "different availability" do
     let (:alternating_days) do
       input[:schedule].merge!({tuesday: workday})
-      input[:workers][:marc] = {monday: freeday, tuesday: workday}
-      input[:workers][:paul][:tuesday]  = freeday
+      input[:workers][:marc] = {tuesday: workday}
       input
     end
     let (:schedule) { Scheduler.new(alternating_days) }
     it "returns correct output" do
-      expect(schedule.run).to eq(paul: {monday: workday, tuesday: freeday}, marc: {monday: freeday, tuesday: workday})
+      expect(schedule.run).to eq(paul: {monday: workday}, marc: {tuesday: workday})
     end
   end
 
@@ -91,13 +90,11 @@ describe Scheduler do
         workers: {
           paul: {
             monday: [0]*12 + [2]*2 + [1]*6 + [0]*4,
-            tuesday: freeday,
             wednesday: workday,
             friday: workday
           },
           alberto: {
             monday: [0]*4 + [1]*12 + [0]*8,
-            sunday: freeday,
             friday: [0]*8 + [1]*12 + [0]*4
           },
           kuba: {
@@ -112,8 +109,8 @@ describe Scheduler do
       {
         paul:{
           monday: [0]*12 + [1]*3 + [0]*9,
-          tuesday: freeday,
-          wednesday: freeday,
+          # tuesday: freeday,
+          # wednesday: freeday,
           friday: freeday,
           sunday: freeday
         },

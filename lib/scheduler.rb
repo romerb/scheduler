@@ -49,6 +49,6 @@ class Scheduler
 
       personal_schedule[day] = day_schedule.zip(day_preference).map{ |arr| arr[0].to_i | arr[1].to_i }
     end
-    personal_schedule
+    Hash[personal_schedule.reject {|k,v| v.empty? || v.inject(&:+) == 0 }]
   end
 end
