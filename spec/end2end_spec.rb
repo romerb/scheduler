@@ -1,7 +1,3 @@
-# 0 No
-# 1 Si
-# 2 Preferito
-
 require 'minitest/autorun'
 require 'minitest/pride'
 require_relative '../lib/parser'
