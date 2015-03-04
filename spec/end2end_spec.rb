@@ -48,12 +48,12 @@ class TestParser < Minitest::Test
     assert_equal expected, worker_day
 
     worker_day_preference = "after 1 PM"
-    expected = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1]
+    expected = [0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1]
     worker_day = Parser.convert_worker_preference_to_array(worker_day_preference)
     assert_equal expected, worker_day
 
     worker_day_preference = "after 2 PM"
-    expected = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1]
+    expected = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1]
     worker_day = Parser.convert_worker_preference_to_array(worker_day_preference)
     assert_equal expected, worker_day
   end

@@ -47,7 +47,14 @@ class Parser
   def self.convert_worker_preference_to_array(worker_preference)
     return ([1] * 24).flatten if worker_preference == "any"
     return ([0] * 24).flatten if worker_preference == "not available"
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1]
+    _, hour, meridian = worker_preference.split(' ');
+    from = twelve_to_twentyfour(hour.to_i,meridian) - 1
+    day = []
+    0.upto(from) { |n| day << 0 }
+    from.upto(22) { |n| day << 1 }
+
+    day
+    
   end
 
   private
