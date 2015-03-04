@@ -36,10 +36,15 @@ class TestParser < Minitest::Test
     assert_equal expected, day_array
   end
 
-  def test_worker_range_conversion_to_array
-    worker_day_range = "any"
-    worker_day = Parser.convert_worker_range_to_array(worker_day_range)
+  def test_worker_preference_conversion_to_array
+    worker_day_preference = "any"
     expected = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    worker_day = Parser.convert_worker_preference_to_array(worker_day_preference)
+    assert_equal expected, worker_day
+
+    worker_day_preference = "not available"
+    expected = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    worker_day = Parser.convert_worker_preference_to_array(worker_day_preference)
     assert_equal expected, worker_day
   end
 

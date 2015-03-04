@@ -44,7 +44,7 @@ class Parser
     day
   end
 
-  def self.convert_worker_range_to_array(worker_range)
+  def self.convert_worker_preference_to_array(worker_preference)
     ([1] * 24).flatten
   end
 
