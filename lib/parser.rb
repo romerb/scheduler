@@ -1,10 +1,10 @@
 require 'yaml'
 
 class Parser
-  def self.parse input_file
+  def self.parse(input_file)
     input = YAML.load input_file
     {
-      schedule: convert_days_range_to_array(input["Schedule"])
+      schedule: convert_days_range_to_array(input['Schedule'])
     }
   end
 
@@ -16,10 +16,10 @@ class Parser
     end
   end
 
-  def self.convert_day_range_to_array day_range
-    days = { "Sun" => :sunday, "Mon" => :monday, "Tue" => :tuesday,
-             "Wed" => :wednesday, "Thu" => :thursday, "Fri" => :friday,
-             "Sat" => :saturday }
+  def self.convert_day_range_to_array(day_range)
+    days = { 'Sun' => :sunday, 'Mon' => :monday, 'Tue' => :tuesday,
+             'Wed' => :wednesday, 'Thu' => :thursday, 'Fri' => :friday,
+             'Sat' => :saturday }
 
     day, range = Array(day_range).flatten
 
@@ -27,10 +27,7 @@ class Parser
   end
 
   def self.convert_range_to_array(day_range)
-    from, to = day_range.split(' to ')
-    from_hour, from_meridian = from.split(' ')
-    to_hour, to_meridian = to.split(' ')
-
+    from_hour, from_meridian, to_hour, to_meridian = twelve_hours_notation_parts(day_range)
     from = twelve_to_twentyfour(from_hour.to_i, from_meridian)
     to = twelve_to_twentyfour(to_hour.to_i, to_meridian)
 
@@ -39,32 +36,35 @@ class Parser
     working_hours(from, to)
   end
 
+  def self.twelve_hours_notation_parts(day_range)
+    from, to = day_range.split(' to ')
+    from_hour, from_meridian = from.split(' ')
+    to_hour, to_meridian = to.split(' ')
+    [from_hour, from_meridian, to_hour, to_meridian]
+  end
+
   def self.convert_worker_preference_to_array(worker_preference)
-    return any if worker_preference == "any"
-    return none if worker_preference == "not available"
+    return any if worker_preference == 'any'
+    return none if worker_preference == 'not available'
 
-    return convert_range_to_array(worker_preference) if is_range? worker_preference
+    return convert_range_to_array(worker_preference) if range? worker_preference
 
-    before_or_after, hour, meridian = worker_preference.split(' ');
-    from_or_to = twelve_to_twentyfour(hour.to_i,meridian)
+    before_or_after, hour, meridian = worker_preference.split(' ')
+    from_or_to = twelve_to_twentyfour(hour.to_i, meridian)
 
     return working_hours(from_or_to) if before_or_after == 'after'
     working_hours(0, from_or_to)
-
-
   end
 
-  private
-
-  def self.is_range?(worker_preference)
+  def self.range?(worker_preference)
     worker_preference =~ /to/
   end
 
-  def self.working_hours from, to=24
+  def self.working_hours(from, to = 24)
     [].tap do |day|
-      0.upto(from - 1) { |n| day << 0 }
-      from.upto(to - 1) { |n| day << 1 }
-      to.upto(23) { |n| day << 0 }
+      0.upto(from - 1) { day << 0 }
+      from.upto(to - 1) { day << 1 }
+      to.upto(23) { day << 0 }
     end
   end
 
@@ -77,12 +77,12 @@ class Parser
   end
 
   def self.twelve_to_twentyfour(hour, meridian)
-    return 12 if hour == 12 && meridian == "PM"
-    return 0 if hour == 12 && meridian == "AM"
-    meridian == "AM" ? hour : hour + 12
+    return 12 if hour == 12 && meridian == 'PM'
+    return 0 if hour == 12 && meridian == 'AM'
+    meridian == 'AM' ? hour : hour + 12
   end
 
   def self.all_day_long?(from, to, from_meridian, to_meridian)
-    from == 12 && to == 12 && from_meridian == "AM" && to_meridian == "AM"
+    from == 12 && to == 12 && from_meridian == 'AM' && to_meridian == 'AM'
   end
 end

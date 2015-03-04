@@ -1,0 +1,12 @@
+AllCops:
+  Include:
+    - 'lib/parser.rb'
+  Exclude:
+    - 'spec/**/*'
+    - 'lib/scheduler.rb'
+
+Documentation:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 110
