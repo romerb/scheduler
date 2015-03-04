@@ -52,11 +52,6 @@ class TestParser < Minitest::Test
     worker_day = Parser.convert_worker_preference_to_array(worker_day_preference)
     assert_equal expected, worker_day
 
-    worker_day_preference = "after 2 PM"
-    expected = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1]
-    worker_day = Parser.convert_worker_preference_to_array(worker_day_preference)
-    assert_equal expected, worker_day
-
     worker_day_preference = "before 2 PM"
     expected = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0]
     worker_day = Parser.convert_worker_preference_to_array(worker_day_preference)
@@ -69,11 +64,6 @@ class TestParser < Minitest::Test
     expected = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0]
     assert_equal expected, day_array
 
-    day_range = "10 AM to 7 PM"
-    day_array = Parser.convert_range_to_array(day_range)
-    expected = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0]
-    assert_equal expected, day_array
-
     day_range = "6 PM to 7 PM"
     day_array = Parser.convert_range_to_array(day_range)
     expected = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]
@@ -82,11 +72,6 @@ class TestParser < Minitest::Test
     day_range = "9 AM to 11 AM"
     day_array = Parser.convert_range_to_array(day_range)
     expected = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    assert_equal expected, day_array
-
-    day_range = "9 AM to 12 PM"
-    day_array = Parser.convert_range_to_array(day_range)
-    expected = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     assert_equal expected, day_array
 
     day_range = "12 AM to 12 PM"
