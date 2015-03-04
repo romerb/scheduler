@@ -38,12 +38,12 @@ class TestParser < Minitest::Test
 
   def test_worker_preference_conversion_to_array
     worker_day_preference = "any"
-    expected = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    expected = ([1] * 24).flatten
     worker_day = Parser.convert_worker_preference_to_array(worker_day_preference)
     assert_equal expected, worker_day
 
     worker_day_preference = "not available"
-    expected = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    expected = ([0] * 24).flatten
     worker_day = Parser.convert_worker_preference_to_array(worker_day_preference)
     assert_equal expected, worker_day
 
@@ -110,4 +110,5 @@ class TestParser < Minitest::Test
     }
     assert_equal expected, data
   end
+
 end

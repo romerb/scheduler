@@ -36,28 +36,28 @@ class Parser
 
     return ([1] * 24).flatten if all_day_long?(from_hour.to_i, to_hour.to_i, from_meridian, to_meridian)
 
-    day = []
-    0.upto(from - 1) { |n| day << 0 }
-    from.upto(to - 1) { |n| day << 1 }
-    to.upto(23) { |n| day << 0 }
-
-    day
+    day_of(from, to)
   end
 
   def self.convert_worker_preference_to_array(worker_preference)
     return ([1] * 24).flatten if worker_preference == "any"
     return ([0] * 24).flatten if worker_preference == "not available"
     _, hour, meridian = worker_preference.split(' ');
-    from = twelve_to_twentyfour(hour.to_i,meridian) - 1
-    day = []
-    0.upto(from) { |n| day << 0 }
-    from.upto(22) { |n| day << 1 }
-
-    day
+    from = twelve_to_twentyfour(hour.to_i,meridian)
+    
+    day_of(from)
     
   end
 
   private
+
+  def self.day_of from, to=24
+    [].tap do |day|
+      0.upto(from - 1) { |n| day << 0 }
+      from.upto(to - 1) { |n| day << 1 }
+      to.upto(23) { |n| day << 0 }
+    end
+  end
 
   def self.twelve_to_twentyfour(hour, meridian)
     return 12 if hour == 12 && meridian == "PM"
