@@ -45,7 +45,8 @@ class Parser
   end
 
   def self.convert_worker_preference_to_array(worker_preference)
-    ([1] * 24).flatten
+    return ([1] * 24).flatten if worker_preference == "any"
+    ([0] * 24).flatten
   end
 
   private
