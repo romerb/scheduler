@@ -44,6 +44,10 @@ class Parser
     day
   end
 
+  def self.convert_worker_range_to_array(worker_range)
+    ([1] * 24).flatten
+  end
+
   private
 
   def self.twelve_to_twentyfour(hour, meridian)
