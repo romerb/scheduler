@@ -8,6 +8,14 @@ class Parser
     }
   end
 
+  def self.convert_days_worker_preferences_to_array(days_worker_preferences)
+    {}.tap do |days_preferences|
+      days_worker_preferences.each do |day, preference|
+        days_preferences.merge!(convert_day_worker_preference_to_array(day => preference))
+      end
+    end
+  end
+
   def self.convert_day_worker_preference_to_array(day_worker_preference)
     days = { 'Sun' => :sunday, 'Mon' => :monday, 'Tue' => :tuesday,
              'Wed' => :wednesday, 'Thu' => :thursday, 'Fri' => :friday,
