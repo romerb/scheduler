@@ -38,6 +38,18 @@ class TestParser < Minitest::Test
     assert_equal expected, day_array
   end
 
+  def test_days_worker_preferences_conversion
+    days_range = {
+      "Mon" => "any",
+      "Sat" => "not available"
+    }
+
+    expected = { monday: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                 saturday:    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
+    days_array = Parser.convert_days_worker_preferences_to_array(days_range)
+    assert_equal expected, days_array
+  end
+
   def test_worker_preference_conversion_to_array
     worker_day_preference = "any"
     expected = ([1] * 24).flatten
@@ -113,6 +125,7 @@ class TestParser < Minitest::Test
   end
 
   def test_end_2_end
+    skip
     data = Parser.parse(@input)
     expected = {
       schedule: {
