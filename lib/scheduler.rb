@@ -1,3 +1,4 @@
+require "pry"
 class Worker
   attr_accessor :preferences, :name
   def initialize name, preferences
