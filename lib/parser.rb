@@ -47,22 +47,26 @@ class Parser
     return any if worker_preference == 'any'
     return none if worker_preference == 'not available'
     return convert_range_to_array(worker_preference) if range? worker_preference
-
-    if worker_preference =~ /prefers/
-      is_ok, preferred = worker_preference.gsub('(', '').gsub(')', '').split('prefers').map(&:strip)
-      is_ok = convert_worker_preference_to_array(is_ok)
-      preferred = convert_worker_preference_to_array(preferred).map { |x| 2 if x == 1 }
-      preferred.each_with_index do |val, index|
-        is_ok[index] = 2 if val == 2
-      end
-      return is_ok
-    end
+    return preferred_working_hours(*get_ok_and_preferred(worker_preference)) if worker_preference =~ /prefers/
 
     before_or_after, hour, meridian = worker_preference.split(' ')
     from_or_to = twelve_to_twentyfour(hour.to_i, meridian)
 
     return working_hours(from_or_to) if before_or_after == 'after'
     working_hours(0, from_or_to)
+  end
+
+  def self.preferred_working_hours(is_ok, preferred)
+    is_ok = convert_worker_preference_to_array(is_ok)
+    preferred = convert_worker_preference_to_array(preferred).map { |x| 2 if x == 1 }
+    preferred.each_with_index do |val, index|
+      is_ok[index] = 2 if val == 2
+    end
+    is_ok
+  end
+
+  def self.get_ok_and_preferred(worker_preference)
+    worker_preference.gsub('(', '').gsub(')', '').split('prefers').map(&:strip)
   end
 
   def self.range?(worker_preference)
