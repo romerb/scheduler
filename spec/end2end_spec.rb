@@ -125,7 +125,6 @@ class TestParser < Minitest::Test
   end
 
   def test_end_2_end
-    skip
     data = Parser.parse(@input)
     expected = {
       schedule: {
@@ -139,5 +138,4 @@ class TestParser < Minitest::Test
     }
     assert_equal expected, data
   end
-
 end
