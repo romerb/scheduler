@@ -34,29 +34,38 @@ class Parser
     from = twelve_to_twentyfour(from_hour.to_i, from_meridian)
     to = twelve_to_twentyfour(to_hour.to_i, to_meridian)
 
-    return ([1] * 24).flatten if all_day_long?(from_hour.to_i, to_hour.to_i, from_meridian, to_meridian)
+    return any if all_day_long?(from_hour.to_i, to_hour.to_i, from_meridian, to_meridian)
 
-    day_of(from, to)
+    working_hours(from, to)
   end
 
   def self.convert_worker_preference_to_array(worker_preference)
-    return ([1] * 24).flatten if worker_preference == "any"
-    return ([0] * 24).flatten if worker_preference == "not available"
-    _, hour, meridian = worker_preference.split(' ');
-    from = twelve_to_twentyfour(hour.to_i,meridian)
-    
-    day_of(from)
-    
+    return any if worker_preference == "any"
+    return none if worker_preference == "not available"
+
+    before_or_after, hour, meridian = worker_preference.split(' ');
+    from_or_to = twelve_to_twentyfour(hour.to_i,meridian)
+
+    return working_hours(from_or_to) if before_or_after == 'after'
+    working_hours(0, from_or_to)
   end
 
   private
 
-  def self.day_of from, to=24
+  def self.working_hours from, to=24
     [].tap do |day|
       0.upto(from - 1) { |n| day << 0 }
       from.upto(to - 1) { |n| day << 1 }
       to.upto(23) { |n| day << 0 }
     end
+  end
+
+  def self.any
+    ([1] * 24).flatten
+  end
+
+  def self.none
+    ([0] * 24).flatten
   end
 
   def self.twelve_to_twentyfour(hour, meridian)
