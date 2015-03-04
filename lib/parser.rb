@@ -43,14 +43,22 @@ class Parser
     return any if worker_preference == "any"
     return none if worker_preference == "not available"
 
+    return convert_range_to_array(worker_preference) if is_range? worker_preference
+
     before_or_after, hour, meridian = worker_preference.split(' ');
     from_or_to = twelve_to_twentyfour(hour.to_i,meridian)
 
     return working_hours(from_or_to) if before_or_after == 'after'
     working_hours(0, from_or_to)
+
+
   end
 
   private
+
+  def self.is_range?(worker_preference)
+    worker_preference =~ /to/
+  end
 
   def self.working_hours from, to=24
     [].tap do |day|
