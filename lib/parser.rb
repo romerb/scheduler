@@ -49,7 +49,13 @@ class Parser
     return convert_range_to_array(worker_preference) if range? worker_preference
 
     if worker_preference =~ /prefers/
-      return [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1]
+      is_ok, preferred = worker_preference.gsub('(', '').gsub(')', '').split('prefers').map(&:strip)
+      is_ok = convert_worker_preference_to_array(is_ok)
+      preferred = convert_worker_preference_to_array(preferred).map { |x| 2 if x == 1 }
+      preferred.each_with_index do |val, index|
+        is_ok[index] = 2 if val == 2
+      end
+      return is_ok
     end
 
     before_or_after, hour, meridian = worker_preference.split(' ')
