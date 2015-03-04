@@ -70,7 +70,7 @@ class Parser
   end
 
   def self.range?(worker_preference)
-    worker_preference =~ /to/
+    worker_preference =~ /^\d{1,2}\s(AM|PM)\sto\s\d{1,2}\s(AM|PM)/
   end
 
   def self.working_hours(from, to = 24)
