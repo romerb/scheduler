@@ -3,8 +3,13 @@ require 'yaml'
 class Parser
   def self.parse(input_file)
     input = YAML.load input_file
+    workers = {}
+    input['Workers'].each do |worker, days|
+      workers[worker.to_sym] = convert_days_worker_preferences_to_array(days)
+    end
     {
-      schedule: convert_days_range_to_array(input['Schedule'])
+      schedule: convert_days_range_to_array(input['Schedule']),
+      workers: workers
     }
   end
 
