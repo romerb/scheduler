@@ -132,9 +132,10 @@ describe Scheduler do
 
     it "returns correct output" do
       result = schedule.run
-      expect(result[:paul]).to eq(expectation[:paul])
-      expect(result[:alberto]).to eq(expectation[:alberto])
-      expect(result[:kuba]).to eq(expectation[:kuba])
+      expect(result).to eq(expectation)
+      # expect(result[:paul]).to eq(expectation[:paul])
+      # expect(result[:alberto]).to eq(expectation[:alberto])
+      # expect(result[:kuba]).to eq(expectation[:kuba])
     end
   end
 
